@@ -93,6 +93,46 @@ median2OfStepsTakenPerDay <- median(sumByDate2$steps)
 
 The new mean as **1.0002743\times 10^{4}** and new medias as **1.0395\times 10^{4}**. 
 
-These values are less that the ones of the orignal data.
+These values are less that the ones we got for the orignal data.
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+I am writing a helper function to get label (weekday/weekend) for the specified date:
+
+
+```r
+getLabelForDate <- function (date){
+  day <- weekdays(date)
+  if (day == "Saturday" || day == "Sunday") {
+    label <- "weekend"
+  } else {
+    label <- "weekday"
+  }
+  label
+}
+```
+
+Now, to add a new factor variable in the dataset with two levels, I simply call the helper function for each row:
+
+```r
+data$dayLabel <- sapply(data$date, function(d) getLabelForDate(d))
+```
+
+Now, we get the average:
+
+
+```r
+averageStepsOverDayLabel <- aggregate(steps ~ interval + dayLabel, data, mean)
+```
+
+Finally, the plot looks like this:
+
+
+```r
+library(lattice)
+with(averageStepsOverDayLabel, xyplot(steps ~ interval | dayLabel, layout=c(1,2), type="l"))
+```
+
+![](./PA1_template_files/figure-html/unnamed-chunk-11-1.png) 
+
+
