@@ -49,6 +49,14 @@ plot(avgByInterval$interval, avgByInterval$steps, type="l", main="Daily Activity
 
 ![](./PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
 
+To compute the interval where maximum activity takes place, following is used:
+
+
+```r
+maxIndex <- which.max(avgByInterval$steps)
+maxInterval <- avgByInterval[maxIndex, 1]
+```
+So the 5-minute interval, on average across all the days in the dataset, that contains the maximum number of steps is 835
 
 ## Imputing missing values
 
